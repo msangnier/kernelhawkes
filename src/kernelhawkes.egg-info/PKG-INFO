@@ -1,0 +1,83 @@
+Metadata-Version: 2.2
+Name: kernelhawkes
+Version: 0.0.1
+Summary: Nonparametric estimation of Hawkes processes with RKHSs
+Author-email: Maxime Sangnier <maxime.sangnier@sorbonne-universite.fr>
+License: Copyright (c) 2018 The Python Packaging Authority
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/msangnier/kernelhawkes
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# kernelhawkes
+
+kernelhawkes is a Python library for nonparametric estimation of nonlinear multivariate Hawkes processes, where the interaction functions are assumed to lie in a reproducing kernel Hilbert space (RKHS).
+
+## Example
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from kernelhawkes import HawkesProcess, MultivariateKernelHawkes, plot_kernels
+
+# Simulation
+fun_diag1 = lambda x: (8*x**2-1)*(x <= 1/2) + np.exp(-2.5*(x-1/2))*(x > 1/2)
+fun_diag2 = lambda x: (8*x**2-1)*(x <= 1/2) + np.exp(-(x-1/2))*(x > 1/2)
+hawkes_kernels = [
+    [fun_diag1, lambda x: np.exp(-10*(x-1)**2), lambda x: -0.6*np.exp(-3*x**2) - 0.4*np.exp(-3*(x-1)**2)],
+    [lambda x: 2**(-5*x), fun_diag2, lambda x: -np.exp(-2*(x-3)**2)],
+    [lambda x: -np.exp(-5*(x-2)**2), lambda x: (1+np.cos(np.pi*x)) * np.exp(-x)/2, fun_diag1]
+]
+
+hp = HawkesProcess(mu=0.05 * np.ones(len(hawkes_kernels)), kernel=hawkes_kernels)
+times = hp.simulate(size=200)
+
+# Estimation
+multi_rkhs = MultivariateKernelHawkes(link_param=100, support=5, gamma=1e0, reg=1e0)
+multi_rkhs.fit(times)
+print("Neg-log-lik RKHS model:", multi_rkhs.negloglik(multi_rkhs.param)[0])
+
+# Plot
+plot_kernels(dict(true=hp, RKHS=multi_rkhs))
+plt.show()
+```
+
+## Dependencies
+
+kernelhawkes needs Python >= 3, setuptools, Numpy and Scipy.
+
+## Installation
+
+To install kernelhawkes from pip, type:
+
+    pip install https://github.com/msangnier/kernelhawkes/archive/master.zip
+
+## Authors
+
+Maxime Sangnier
+
+# References
+
+- Nonparametric estimation of Hawkes processes with RKHSs (2025), A. Bonnet and M. Sangnier. AISTATS.
+                                                                          

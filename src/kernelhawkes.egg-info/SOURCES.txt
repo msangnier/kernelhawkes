@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+src/kernelhawkes/__init__.py
+src/kernelhawkes/rkhs_hawkes.py
+src/kernelhawkes.egg-info/PKG-INFO
+src/kernelhawkes.egg-info/SOURCES.txt
+src/kernelhawkes.egg-info/dependency_links.txt
+src/kernelhawkes.egg-info/top_level.txt
+src/kernelhawkes/multivariatehawkesinhibition/__init__.py
+src/kernelhawkes/multivariatehawkesinhibition/colormaps.py
+src/kernelhawkes/multivariatehawkesinhibition/estimator_class.py
+src/kernelhawkes/multivariatehawkesinhibition/hawkes_process.py
+src/kernelhawkes/multivariatehawkesinhibition/likelihood_functions.py
+src/kernelhawkes/multivariatehawkesinhibition/multivariate_exponential_process.py

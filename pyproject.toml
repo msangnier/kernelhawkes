@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "numpy", "scipy"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kernelhawkes"
+version = "0.0.1"
+authors = [
+  { name="Maxime Sangnier", email="maxime.sangnier@sorbonne-universite.fr" },
+]
+description = "Nonparametric estimation of Hawkes processes with RKHSs"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = {file = "LICENSE"}
+
+[project.urls]
+Homepage = "https://github.com/msangnier/kernelhawkes"
+

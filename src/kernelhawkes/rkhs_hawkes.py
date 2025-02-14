@@ -3,11 +3,9 @@ from scipy.optimize import minimize
 from scipy.special import erf
 import time
 
-import sys
-sys.path.append('multivariate-hawkes-inhibition')
-from class_and_func.hawkes_process import exp_thinning_hawkes
-from class_and_func.multivariate_exponential_process import multivariate_exponential_hawkes
-from class_and_func.estimator_class import multivariate_estimator_bfgs
+from kernelhawkes.multivariatehawkesinhibition.hawkes_process import exp_thinning_hawkes
+from kernelhawkes.multivariatehawkesinhibition.multivariate_exponential_process import multivariate_exponential_hawkes
+from kernelhawkes.multivariatehawkesinhibition.estimator_class import multivariate_estimator_bfgs
 import matplotlib.pyplot as plt
 
 def time_tic(counters=[time.perf_counter, time.process_time, time.thread_time, time.time]):
@@ -39,31 +37,6 @@ def plot_kernels(dic, title=None, bounds=(-0.5, 5.5), sharey=False, fittrue=Fals
                     axk[j, l].set_ylim(*axlim[j, l])
 
                 axk[j, l].legend()
-    fig.suptitle(title)
-    return fig, axk
-
-def plot_diagonal_kernels(dic, title=None, bounds=(-0.5, 5.5), sharey=False, fittrue=False, figsize=None, legendpos=0):
-    t_kernel = np.linspace(bounds[0], bounds[1], num=500)
-    for name, model in dic.items():
-        fig, axk = plt.subplots(1, model.p, sharex=True, sharey=sharey, figsize=figsize)
-        break
-    axlim = np.empty_like(axk)
-
-    for name, model in dic.items():
-        val_kernel = model.kernel(t_kernel)
-        for j in range(model.p):
-            label = rf'Kernel ${j + 1} \leftarrow {j + 1}$' if name=='true' else \
-                (name if j==legendpos else None)
-            linewidth = 2
-
-            axk[j].plot(t_kernel, val_kernel[j][j], label=label, linewidth=linewidth)
-
-            if fittrue and name=='true':
-                axlim[j] = axk[j].get_ylim()
-            elif fittrue:
-                axk[j].set_ylim(*axlim[j])
-
-            axk[j].legend()
     fig.suptitle(title)
     return fig, axk
 
