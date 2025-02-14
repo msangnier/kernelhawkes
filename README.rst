@@ -40,7 +40,7 @@ Example
 Dependencies
 ------------
 
-optboosting needs Python >= 3, setuptools and Numpy.
+kernelhawkes needs Python >= 3, setuptools and Numpy.
 
 Installation
 ------------
